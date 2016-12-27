@@ -31,8 +31,8 @@
             </div>
         </div>
         <div class="col s12 m12 l12">
-        <div class="divider"></div>
-        <h3 class="center-align thin">Не обрано данних для відображення!</h3>
+            <div class="divider"></div>
+            <h3 class="center-align thin">Не обрано данних для відображення!</h3>
             <table class="bordered responsive-table">
                 <thead>
                 <tr>

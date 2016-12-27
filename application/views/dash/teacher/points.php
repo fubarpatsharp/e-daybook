@@ -1,8 +1,24 @@
 <div class="col s12 m12 l12">
-    <h4 class="light">Перегляд оцінок</h4>
-    <div class="card-panel" style="overflow: auto">
+    <h4 class="light">Оцінки</h4>
+    <div class="card-panel" style="overflow:auto;">
         <div class="col s12 m12 l12">
-            <div class="input-field col s12 m4 l4">
+            <div class="input-field col s12 m4 l2">
+                <select>
+                    <option value="1">1-А</option>
+                    <option value="2">1-Б</option>
+                    <option value="3">2-А</option>
+                </select>
+                <label>Виберіть клас</label>
+            </div>
+            <div class="input-field col s12 m4 l2">
+                <select>
+                    <option value="1">Українська мова</option>
+                    <option value="2">Алгебра</option>
+                    <option value="3">Геометрія</option>
+                </select>
+                <label>Виберіть предмет</label>
+            </div>
+            <div class="input-field col s12 m4 l2">
                 <select>
                     <option value="1">Вересень</option>
                     <option value="2">Жовтень</option>
@@ -10,179 +26,41 @@
                 </select>
                 <label>Виберіть місяць</label>
             </div>
-            <div class="input-field col s12 m4 l4">
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-                <label>Виберіть тиждень</label>
-            </div>
-            <div class="input-field col s12 m4 l4 center-align">
+            <div class="input-field col s12 m6 l6 center-align">
                 <a class="waves-effect waves-light btn-large">Відобразити</a>
             </div>
         </div>
-    </div>
-</div>
-<div class="col s12 m12 l12">
-    <div class="col s12 m12 l4">
-        <div class="card-panel">
-            <h5 class="light">Понеділок</h5>
+        <div class="col s12 m12 l12">
+            <div class="divider"></div>
+            <h3 class="center-align thin">Не обрано данних для відображення!</h3>
             <table class="bordered responsive-table">
                 <thead>
                 <tr>
-                    <th data-field="id">Предмет</th>
-                    <th data-field="name">Опис</th>
-                    <th data-field="price">Оцінка</th>
+                    <th data-field="id">Name</th>
+                    <th data-field="name">Item Name</th>
+                    <th data-field="price">Item Price</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr>
-                    <td>Алгебра</td>
-                    <td>Робота біля дошки</td>
-                    <td>11</td>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                    <td>$0.87</td>
                 </tr>
                 <tr>
-                    <td>Біологія</td>
-                    <td>Самостійна</td>
-                    <td>10</td>
+                    <td>Alan</td>
+                    <td>Jellybean</td>
+                    <td>$3.76</td>
                 </tr>
                 <tr>
-                    <td>Геометрія</td>
-                    <td>Контрольна</td>
-                    <td>10</td>
+                    <td>Jonathan</td>
+                    <td>Lollipop</td>
+                    <td>$7.00</td>
                 </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="col s12 m12 l4">
-        <div class="card-panel">
-            <h5 class="light">Вівторок</h5>
-            <table class="bordered responsive-table">
-                <thead>
-                <tr>
-                    <th data-field="id">Предмет</th>
-                    <th data-field="name">Опис</th>
-                    <th data-field="price">Оцінка</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Алгебра</td>
-                    <td>Робота біля дошки</td>
-                    <td>11</td>
-                </tr>
-                <tr>
-                    <td>Біологія</td>
-                    <td>Самостійна</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Геометрія</td>
-                    <td>Контрольна</td>
-                    <td>10</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col s12 m12 l4">
-        <div class="card-panel">
-            <h5 class="light">Середа</h5>
-            <table class="bordered responsive-table">
-                <thead>
-                <tr>
-                    <th data-field="id">Предмет</th>
-                    <th data-field="name">Опис</th>
-                    <th data-field="price">Оцінка</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Алгебра</td>
-                    <td>Робота біля дошки</td>
-                    <td>11</td>
-                </tr>
-                <tr>
-                    <td>Біологія</td>
-                    <td>Самостійна</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Геометрія</td>
-                    <td>Контрольна</td>
-                    <td>10</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col s12 m12 l4">
-        <div class="card-panel">
-            <h5 class="light">Четвер</h5>
-            <table class="bordered responsive-table">
-                <thead>
-                <tr>
-                    <th data-field="id">Предмет</th>
-                    <th data-field="name">Опис</th>
-                    <th data-field="price">Оцінка</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Алгебра</td>
-                    <td>Робота біля дошки</td>
-                    <td>11</td>
-                </tr>
-                <tr>
-                    <td>Біологія</td>
-                    <td>Самостійна</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Геометрія</td>
-                    <td>Контрольна</td>
-                    <td>10</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col s12 m12 l4">
-        <div class="card-panel">
-            <h5 class="light">П'ятниця</h5>
-            <table class="bordered responsive-table">
-                <thead>
-                <tr>
-                    <th data-field="id">Предмет</th>
-                    <th data-field="name">Опис</th>
-                    <th data-field="price">Оцінка</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Алгебра</td>
-                    <td>Робота біля дошки</td>
-                    <td>11</td>
-                </tr>
-                <tr>
-                    <td>Біологія</td>
-                    <td>Самостійна</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Геометрія</td>
-                    <td>Контрольна</td>
-                    <td>10</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="divider"></div>
         </div>
     </div>
 </div>

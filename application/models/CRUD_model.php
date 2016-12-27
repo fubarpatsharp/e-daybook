@@ -20,9 +20,12 @@ class CRUD_model extends CI_Model
         $query = $this->db->get('posts', 4);
         return $query->result_array();
     }
-    public function getGroupNum($group) {
+
+    public function getGroupNum($group)
+    {
         return count($this->ion_auth->users($group));
     }
+
     public function getMessages()
     {
         $id = $this->ion_auth->user()->row()->id;
@@ -50,19 +53,26 @@ class CRUD_model extends CI_Model
         }
     }
 
-    public function getClasses(){
-        $query = $this->db->get('classes');
-        return $query->result_array();
-    }
-
     public function create_class($name = '')
     {
         $existing_class = $this->db->get_where('classes', array('name' => $name));
-        if($existing_class !== 0)
-        {
+        if ($existing_class !== 0) {
             $this->set_error('group_already_exists');
             return FALSE;
         }
         $this->db->insert('classes', array('name' => $name));
+    }
+
+    public function createNotice($class, $header, $content, $priority)
+    {
+        $data = array(
+            'author' => $this->ion_auth->user()->row()->id,
+            'class' => $class,
+            'header' => $header,
+            'content' => $content,
+            'priority' => $priority
+        );
+        $this->db->insert('posts', $data);
+        return true;
     }
 }
