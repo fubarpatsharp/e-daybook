@@ -19,18 +19,13 @@ class Dashboard extends CI_Controller
             );
             $this->load->view('_templates/logged/header');
             if ($this->ion_auth->in_group(1)) {
-                $data += array(
-                    'students' => $this->CRUD_model->getGroupNum(2),
-                    'teachers' => $this->CRUD_model->getGroupNum(3),
-                    'parents' => $this->CRUD_model->getGroupNum(4)
-                );
-                $this->parser->parse('dash/admin/index', $data);
+                redirect('admin/index', 'refresh');
             } elseif ($this->ion_auth->in_group(2)) {
-                $this->parser->parse('dash/student/index', $data);
+                redirect('student/index', 'refresh');
             } elseif ($this->ion_auth->in_group(3)) {
-                $this->parser->parse('dash/teacher/index', $data);
+                redirect('teacher/index', 'refresh');
             } elseif ($this->ion_auth->in_group(4)) {
-                $this->parser->parse('dash/parent/index', $data);
+                redirect('parent/index', 'refresh');
             }
             $this->load->view('_templates/logged/footer');
         } else {

@@ -14,17 +14,20 @@ class Admin extends CI_Controller
     public function index()
     {
         if ($this->ion_auth->logged_in()) {
-            $this->load->view('_templates/logged/header');
-            if ($this->ion_auth->in_group(1)) {
-                $this->load->view('dash/admin/index');
-            } elseif ($this->ion_auth->in_group(2)) {
-                $this->load->view('dash/student/index');
-            } elseif ($this->ion_auth->in_group(3)) {
-                $this->load->view('dash/teacher/index');
-            } elseif ($this->ion_auth->in_group(4)) {
-                $this->load->view('dash/parent/index');
+            if ($this->ion_auth->is_admin()) {
+                $this->load->view('_templates/logged/header');
+                $data = array(
+                    'students' => $this->CRUD_model->getGroupNum(2),
+                    'teachers' => $this->CRUD_model->getGroupNum(3),
+                    'parents' => $this->CRUD_model->getGroupNum(4),
+                    'news_entries' => $this->CRUD_model->getNews(),
+                    'message_entries' => $this->CRUD_model->getMessages()
+                );
+                $this->parser->parse('dash/admin/index', $data);
+                $this->load->view('_templates/logged/footer');
+            } else {
+                show_error('Ви не адміністратор!', 403);
             }
-            $this->load->view('_templates/logged/footer');
         } else {
             redirect('auth/login', 'auto');
         }
@@ -62,7 +65,7 @@ class Admin extends CI_Controller
         if ($this->ion_auth->logged_in()) {
 
             $this->load->view('_templates/logged/header');
-            $this->load->view('dash/student/points');
+            $this->load->view('dash/admin/points');
             $this->load->view('_templates/logged/footer');
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-class Student extends CI_Controller
+class st extends CI_Controller
 {
     public function __construct()
     {
