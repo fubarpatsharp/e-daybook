@@ -60,6 +60,7 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="divider"></div>
         </div>
     </div>
 </div>
