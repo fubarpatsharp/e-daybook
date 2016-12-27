@@ -16,6 +16,7 @@ class Admin extends CI_Controller
         if ($this->ion_auth->logged_in()) {
             if ($this->ion_auth->is_admin()) {
                 $this->load->view('_templates/logged/header');
+                $priority = $this->CRUD_model->getNews();
                 $data = array(
                     'students' => $this->CRUD_model->getGroupNum(2),
                     'teachers' => $this->CRUD_model->getGroupNum(3),

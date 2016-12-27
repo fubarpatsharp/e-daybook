@@ -1,4 +1,5 @@
 <div class="col s12 m12 l12">
+    <h4 class="light">Сповіщення</h4>
     <div class="card-panel" style="overflow: auto">
         <?php echo form_open("admin/notices");?>
         <div class="col s12 m12 l12">
@@ -24,5 +25,6 @@
                 <?php echo form_submit('submit','Опублікувати');?>
             </div>
         </div>
+        <?php echo form_close();?>
     </div>
 </div>
