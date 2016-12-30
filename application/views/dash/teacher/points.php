@@ -1,66 +1,24 @@
 <div class="col s12 m12 l12">
     <h4 class="light">Оцінки</h4>
-    <div class="card-panel" style="overflow:auto;">
+    <div class="card-panel" style="overflow:auto; height: 400px">
         <div class="col s12 m12 l12">
-            <div class="input-field col s12 m4 l2">
-                <select>
-                    <option value="1">1-А</option>
-                    <option value="2">1-Б</option>
-                    <option value="3">2-А</option>
-                </select>
+            <?php echo form_open("tc/points");?>
+            <div class="input-field col s12 m4 l">
+                <?php echo form_dropdown('subject', $classes); ?>
                 <label>Виберіть клас</label>
             </div>
-            <div class="input-field col s12 m4 l2">
-                <select>
-                    <option value="1">Українська мова</option>
-                    <option value="2">Алгебра</option>
-                    <option value="3">Геометрія</option>
-                </select>
+            <div class="input-field col s12 m4 l4">
+                <?php echo form_dropdown('class', $subjects); ?>
                 <label>Виберіть предмет</label>
             </div>
-            <div class="input-field col s12 m4 l2">
-                <select>
-                    <option value="1">Вересень</option>
-                    <option value="2">Жовтень</option>
-                    <option value="3">Листопад</option>
-                </select>
-                <label>Виберіть місяць</label>
+            <div class="input-field col s12 m6 l4 center-align">
+                <?php echo form_submit('submit','Відобразити');?>
             </div>
-            <div class="input-field col s12 m6 l6 center-align">
-                <a class="waves-effect waves-light btn-large">Відобразити</a>
-            </div>
+            <?php echo form_close();?>
         </div>
         <div class="col s12 m12 l12">
             <div class="divider"></div>
             <h3 class="center-align thin">Не обрано данних для відображення!</h3>
-            <table class="bordered responsive-table">
-                <thead>
-                <tr>
-                    <th data-field="id">Name</th>
-                    <th data-field="name">Item Name</th>
-                    <th data-field="price">Item Price</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Alvin</td>
-                    <td>Eclair</td>
-                    <td>$0.87</td>
-                </tr>
-                <tr>
-                    <td>Alan</td>
-                    <td>Jellybean</td>
-                    <td>$3.76</td>
-                </tr>
-                <tr>
-                    <td>Jonathan</td>
-                    <td>Lollipop</td>
-                    <td>$7.00</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="divider"></div>
         </div>
     </div>
 </div>

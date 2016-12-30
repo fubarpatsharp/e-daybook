@@ -27,4 +27,25 @@
         </div>
         <?php echo form_close();?>
     </div>
+    <div class="card-panel" style="overflow:auto;">
+        <table class="bordered responsive-table">
+            <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="id">Назва</th>
+                <th data-field="name">Короткий зміст</th>
+                <th data-field="price">Дії</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>Алгебра</td>
+                <td>Алгебра</td>
+                <td>Робота біля дошки</td>
+                <td>11</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -97,17 +97,7 @@ class Admin extends CI_Controller
             if ($this->ion_auth->in_group(3) || $this->ion_auth->is_admin()) {
 
                 $this->load->view('_templates/logged/header');
-                $data['classes'] = array(
-                    '0' => 'Усі',
-                    '1' => '11-A',
-                    '2' => '10-A',
-                    '3' => '9-A',
-                    '4' => '8-A',
-                    '5' => '7-A',
-                    '6' => '6-A',
-                    '7' => '6-Б',
-                    '8' => '5-A'
-                );
+                $data['classes'] = $this->CRUD_model->getClasses();
                 $data['priority'] = array(
                     '1' => 'Низький',
                     '2' => 'Середній',
@@ -128,5 +118,6 @@ class Admin extends CI_Controller
             }
         }
     }
+
 
 }

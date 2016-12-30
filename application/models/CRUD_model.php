@@ -7,12 +7,47 @@ class CRUD_model extends CI_Model
         parent::__construct();
     }
 
-    function getPoints($student, $subject)
+    function getTeacherInfo($teacher)
     {
-        if ($subject == 1) {
-            $query = $this->db->get_where('points_ukrlang', array('student' => $student));
-            return $query->result_array();
+        $teacher_info = $this->db->get_where('teachers', array('teacher' => $teacher));
+        return $teacher_info->result_array();
+    }
+
+    public function getAccessedSubj($teacher)
+    {
+        $query = $this->db->select('name, subject')
+            ->where('accessed_subj.teacher', $teacher)
+            ->join('subjects', 'accessed_subj.subject = subjects.id')
+            ->get('accessed_subj');
+        $result = array();
+        foreach ($query->result_array() as $item) {
+            $result += array($item['subject'] => $item['name']);
         }
+        return $result;
+    }
+
+    public function getAccessedClasses($teacher)
+    {
+        $query = $this->db->select('name, class')
+            ->where('accessed_classes.teacher', $teacher)
+            ->join('classes', 'accessed_classes.class = classes.id')
+            ->get('accessed_classes');
+        $result = array();
+        foreach ($query->result_array() as $item) {
+            $result += array($item['class'] => $item['name']);
+        }
+        return $result;
+    }
+
+    public function getClassPoints($subject, $class) {
+        /*$this->db->query('SELECT points.student, points.date, points.mark, users.last_name FROM points, users WHERE users.id = points.student AND points.subject = 1');*/
+        $where = 'users.id = points.student';
+        $query = $this->db->select('points.student, points.date, points.mark, users.last_name')
+            ->where($where)
+            ->where('points.subject', $subject)
+            ->where('users.class', $class)
+            ->get('points, users');
+        return $query->result_array();
     }
 
     function getNews()
@@ -39,6 +74,15 @@ class CRUD_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getClasses() {
+        $query = $this->db->get_where('classes');
+        $result = array();
+        foreach ($query->result_array() as $item) {
+            $result += array($item['id'] => $item['name']);
+        }
+        return $result;
+    }
+
     function getFindedUsers($type, $data)
     {
         if ($type = 'name') {
@@ -52,6 +96,7 @@ class CRUD_model extends CI_Model
             return $query->result_array();
         }
     }
+
 
     public function create_class($name = '')
     {
