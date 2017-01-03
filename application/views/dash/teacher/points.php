@@ -2,7 +2,7 @@
     <h4 class="light">Оцінки</h4>
     <div class="card-panel" style="overflow:auto; min-height: 800px">
         <div class="col s12 m12 l12">
-            <?php echo form_open("tc/points");?>
+            <?php echo form_open("tc/marksheet");?>
             <div class="input-field col s12 m4 l4">
                 <?php echo form_dropdown('class_show', $classes); ?>
                 <label>Виберіть клас</label>

@@ -16,13 +16,12 @@ class tc extends CI_Controller
 
     }
 
-    public function points()
+    public function marksheet()
     {
         if ($this->ion_auth->logged_in()) {
 
             if ($this->ion_auth->in_group(3) || $this->ion_auth->is_admin()) {
                 $this->load->view('_templates/logged/header');
-                $this->benchmark->mark('code_start');
                 $data['subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
                 $data['classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
                 $data['existinfo'] = FALSE;
@@ -53,18 +52,72 @@ class tc extends CI_Controller
 
 
                 $this->load->view('_templates/logged/footer');
-                $this->benchmark->mark('code_end');
-                echo $this->benchmark->elapsed_time('code_start', 'code_end');
             }
         }
     }
 
-    public function report_lesson()
+    public function lesson()
     {
         $this->load->view('_templates/logged/header');
         $data['subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
         $data['classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
-        $this->load->view('dash/teacher/report_lesson', $data);
-        $this->load->view('_templates/logged/footer');
+        if ($this->uri->uri_string() == '/tc/lesson/add') {
+            if ($this->input->post('submit')) {
+                $this->form_validation->set_rules('subjects', 'Предмет', 'required');
+                $this->form_validation->set_rules('classes', 'Клас', 'required');
+                $data['existinfo'] = false;
+                if ($this->form_validation->run() == TRUE) {
+                    $data['existinfo'] = true;
+                    $data['point'] = array(
+                        '404' => 'Н',
+                        '0' => 'Оцінка відсутня',
+                        '2' => 2,
+                        '3' => 3,
+                        '4' => 4,
+                        '5' => 5,
+                        '6' => 6,
+                        '7' => 7,
+                        '8' => 8,
+                        '9' => 9,
+                        '10' => 10,
+                        '11' => 11,
+                        '12' => 12
+                    );
+                    $data['type'] = array(
+                        '1' => 'Поточна',
+                        '2' => 'С/Р',
+                        '3' => 'К/Р',
+                        '4' => 'Д/З'
+                    );
+                    $data['class_students'] = $this->CRUD_model->getStudents($this->input->post('classes'));
+                    $data['subject_name'] = $this->CRUD_model->getSubjectName($this->input->post('subjects'));
+                    $data['class_name'] = $this->CRUD_model->getClassName($this->input->post('classes'));
+                    $this->load->view('dash/teacher/report_lesson', $data);
+                } else {
+                    $this->load->view('dash/teacher/report_lesson', $data);
+                }
+                if ($this->input->post('submit_send')) {
+                    $this->form_validation->set_rules('student', 'Учень', 'required');
+                    $this->form_validation->set_rules('point', 'Оцінка', 'required');
+                    $this->form_validation->set_rules('type', 'Тип', 'required');
+                    if ($this->form_validation->run() == TRUE) {
+                        $this->CRUD_model->addPoint();
+                    } else {
+                        echo validation_errors();
+                    }
+                    $this->load->view('dash/teacher/report_lesson', $data);
+                } else {
+                    echo 'KEKEEgdfgdfgEE';
+                    $this->load->view('dash/teacher/report_lesson', $data);
+                }
+            } else {
+                echo 'KEKEEEE';
+                $this->load->view('dash/teacher/report_lesson', $data);
+            }
+            $this->load->view('_templates/logged/footer');
+        } else {
+            echo 'KEK';
+        }
+        $data['existinfo'] = FALSE;
     }
 }

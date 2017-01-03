@@ -60,6 +60,16 @@ class CRUD_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getStudents($class) {
+        $query = $this->db->select('users.last_name, users.first_name, users.id')
+            ->where('users.class', $class)
+            ->get('users');
+        $result = array();
+        foreach ($query->result_array() as $item) {
+            $result += array($item['id'] => $item['last_name'].' '.mb_strimwidth($item['first_name'], 0, 2, "."));
+        }
+        return $result;
+    }
     function getNews()
     {
         $query = $this->db->get('posts', 4);
@@ -137,6 +147,18 @@ class CRUD_model extends CI_Model
             'priority' => $priority
         );
         $this->db->insert('posts', $data);
+        return true;
+    }
+
+    public function addPoint($student, $subject, $point, $type) {
+        $data = array(
+            'subject' => $subject,
+            'teacher' => $this->ion_auth->user()->row()->id,
+            'student' => $student,
+            'mark' => $point,
+            'comment' => $type
+        );
+        $this->db->insert('points', $data);
         return true;
     }
 }
