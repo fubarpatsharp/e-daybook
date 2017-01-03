@@ -497,8 +497,7 @@ if ( ! function_exists('form_submit'))
 		$defaults = array(
 			'type' => 'submit',
 			'name' => is_array($data) ? '' : $data,
-			'value' => $value,
-            'class' => 'btn waves-effect waves-light indigo'
+			'value' => $value
 		);
 
 		return '<input '._parse_form_attributes($data, $defaults)._attributes_to_string($extra)." />\n";

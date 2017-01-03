@@ -26,12 +26,21 @@ class CRUD_model extends CI_Model
         return $result;
     }
 
+    public function getSubjectName($subject)
+    {
+        $query = $this->db->select('name')
+            ->where('id', $subject)
+            ->get('subjects');
+        return $query->row()->name;
+    }
+
     public function getAccessedClasses($teacher)
     {
-        $query = $this->db->select('name, class')
+        $data = 'accessed_classes.class = classes.id';
+        $query = $this->db->select('accessed_classes.class, classes.name')
+            ->where($data)
             ->where('accessed_classes.teacher', $teacher)
-            ->join('classes', 'accessed_classes.class = classes.id')
-            ->get('accessed_classes');
+            ->get('accessed_classes, classes');
         $result = array();
         foreach ($query->result_array() as $item) {
             $result += array($item['class'] => $item['name']);
@@ -39,7 +48,8 @@ class CRUD_model extends CI_Model
         return $result;
     }
 
-    public function getClassPoints($subject, $class) {
+    public function getClassPoints($subject, $class)
+    {
         /*$this->db->query('SELECT points.student, points.date, points.mark, users.last_name FROM points, users WHERE users.id = points.student AND points.subject = 1');*/
         $where = 'users.id = points.student';
         $query = $this->db->select('points.student, points.date, points.mark, users.last_name')
@@ -74,13 +84,22 @@ class CRUD_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getClasses() {
+    public function getClasses()
+    {
         $query = $this->db->get_where('classes');
         $result = array();
         foreach ($query->result_array() as $item) {
             $result += array($item['id'] => $item['name']);
         }
         return $result;
+    }
+
+    public function getClassName($class)
+    {
+        $query = $this->db->select('name')
+            ->where('id', $class)
+            ->get('classes');
+        return $query->row()->name;
     }
 
     function getFindedUsers($type, $data)

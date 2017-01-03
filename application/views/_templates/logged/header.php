@@ -43,4 +43,4 @@
                     </div>
                 </div>
             </div>
-            <div class="col l10">
+            <div class="col s12 m12 l10">
