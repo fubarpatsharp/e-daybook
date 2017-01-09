@@ -1384,8 +1384,8 @@ class Ion_auth_model extends CI_Model
 		return $this;
 	}
 
-	public function avatar() {
-        $user = $this->ion_auth->user()->row();
+	public function avatar($id='') {
+        $user = $this->ion_auth->user($id)->row();
         if (empty($user->avatar) || !file_exists($user->avatar)) {
             return '/content/users/noavatar.jpg';
         } else {

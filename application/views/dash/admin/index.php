@@ -19,33 +19,31 @@
         </div>
     </div>
 </div>
-<div class="col s12 m12 l12">
-    <div class="col s12 m6 l6">
-        <h5 class="light">Новини</h5>
-        <ul class="collapsible" data-collapsible="accordion">
-            {news_entries}
-            <li>
-                <div class="collapsible-header"><i class="material-icons">info_outline</i>{header} <span class="badge" data-badge-caption="fubarpatsharp"></span></div>
-                <div class="collapsible-body"><p>{content}</p></div>
-            </li>
-            {/news_entries}
-        </ul>
-    </div>
-    <div class="col s12 m6 l6">
-        <h5 class="light">Повідомлення</h5>
-        <ul class="collapsible" data-collapsible="accordion">
-            {message_entries}
-            <li>
-                <div class="collapsible-header"><i class="material-icons">message</i>{header} <span class="badge" data-badge-caption="fubarpatsharp"></span></div>
-                <div class="collapsible-body"><p>{content}</p></div>
-            </li>
-            {/message_entries}
-        </ul>
-    </div>
-</div>
-<div class="col s12 m12 l12">
-    <div class="card-panel z-depth-3">
-        <img src="http://canvasjs.com/wp-content/uploads/2013/01/html5_multiseries_area_chart.jpg"
-             width="100%">
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="col s12 m6 l6">
+            <h4 class="light">Новини</h4>
+            <ul class="collapsible" data-collapsible="accordion">
+                <?php
+                foreach ($news as $row):
+                    if ($row['priority'] == 2) {$color = 'orange';} elseif ($row['priority'] == 3) {$color ='red';} else {$color = 'black';}?>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons" style="color: <?php echo $color; ?>">info_outline</i><?php echo $row['header']; ?></span></div>
+                        <div class="collapsible-body"><p><?php echo $row['content']; ?></p></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="col s12 m6 l6">
+            <h4 class="light">Повідомлення</h4>
+            <?php foreach ($messages as $row): ?>
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">message</i><?php echo $row['header']; ?></div>
+                        <div class="collapsible-body"><p><label>Автор: <?php echo $this->ion_auth->user($row['author'])->row()->last_name.' '.$this->ion_auth->user($row['author'])->row()->first_name; ?></label><br><?php echo $row['content'];?></p></div>
+                    </li>
+                </ul>
+            <?php endforeach;?>
+        </div>
     </div>
 </div>

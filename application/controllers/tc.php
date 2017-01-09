@@ -13,7 +13,15 @@ class tc extends CI_Controller
 
     public function index()
     {
-
+        if ($this->ion_auth->logged_in()) {
+            if ($this->ion_auth->in_group(3) || $this->ion_auth->is_admin()) {
+                $this->load->view('_templates/logged/header');
+                $data['news'] = $this->CRUD_model->getNews();
+                $data['messages'] = $this->CRUD_model->getMessages();
+                $this->load->view('dash/teacher/index', $data);
+                $this->load->view('_templates/logged/footer');
+            }
+        }
     }
 
     public function marksheet()
@@ -58,16 +66,23 @@ class tc extends CI_Controller
 
     public function lesson()
     {
-        $this->load->view('_templates/logged/header');
-        $data['subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
-        $data['classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
-        if ($this->uri->uri_string() == '/tc/lesson/add') {
-            if ($this->input->post('submit')) {
-                $this->form_validation->set_rules('subjects', 'Предмет', 'required');
-                $this->form_validation->set_rules('classes', 'Клас', 'required');
-                $data['existinfo'] = false;
-                if ($this->form_validation->run() == TRUE) {
-                    $data['existinfo'] = true;
+        $this->load->library('session');
+        if ($this->ion_auth->logged_in()) {
+            if ($this->ion_auth->in_group(3) || $this->ion_auth->is_admin()) {
+                $this->load->view('_templates/logged/header');
+                $data['exist_information'] = FALSE;
+                $data['accessed_subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
+                $data['accessed_classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
+                if ($this->input->post('submit_choose')) {
+                    $_SESSION['class'] = array_values($this->input->post('class'));
+                    $_SESSION['subject'] = $this->input->post('subject');
+                    redirect('tc/lesson/add');
+                } else {
+                    $this->load->view('dash/teacher/lesson', $data);
+                }
+
+                if ($this->uri->uri_string() == 'tc/lesson/add' && $_SESSION['class'] != NULL && $_SESSION['subject'] != NULL) {
+                    $data['exist_information'] = TRUE;
                     $data['point'] = array(
                         '404' => 'Н',
                         '0' => 'Оцінка відсутня',
@@ -89,35 +104,88 @@ class tc extends CI_Controller
                         '3' => 'К/Р',
                         '4' => 'Д/З'
                     );
-                    $data['class_students'] = $this->CRUD_model->getStudents($this->input->post('classes'));
-                    $data['subject_name'] = $this->CRUD_model->getSubjectName($this->input->post('subjects'));
-                    $data['class_name'] = $this->CRUD_model->getClassName($this->input->post('classes'));
-                    $this->load->view('dash/teacher/report_lesson', $data);
-                } else {
-                    $this->load->view('dash/teacher/report_lesson', $data);
-                }
-                if ($this->input->post('submit_send')) {
-                    $this->form_validation->set_rules('student', 'Учень', 'required');
-                    $this->form_validation->set_rules('point', 'Оцінка', 'required');
-                    $this->form_validation->set_rules('type', 'Тип', 'required');
-                    if ($this->form_validation->run() == TRUE) {
-                        $this->CRUD_model->addPoint();
-                    } else {
-                        echo validation_errors();
+                    $data['class_name'] = $_SESSION['class'];
+                    $data['subject_name'] = $_SESSION['subject'];
+                    $data['class_students'] = $this->CRUD_model->getStudents($_SESSION['class']);
+                    $data['subject_name'] = $this->CRUD_model->getSubjectName($_SESSION['subject']);
+                    $this->load->view('dash/teacher/lesson_add', $data);
+
+                    if ($this->input->post('submit_send')) {
+                        $this->form_validation->set_rules('student', 'Учень', 'required');
+                        $this->form_validation->set_rules('point', 'Оцінка', 'required');
+                        $this->form_validation->set_rules('type', 'Тип', 'required');
+                        if ($this->form_validation->run() == TRUE) {
+                            $this->CRUD_model->addPoint();
+                        } else {
+                            echo validation_errors();
+                        }
                     }
-                    $this->load->view('dash/teacher/report_lesson', $data);
-                } else {
-                    echo 'KEKEEgdfgdfgEE';
-                    $this->load->view('dash/teacher/report_lesson', $data);
                 }
-            } else {
-                echo 'KEKEEEE';
-                $this->load->view('dash/teacher/report_lesson', $data);
+
+                $this->load->view('_templates/logged/footer');
             }
-            $this->load->view('_templates/logged/footer');
-        } else {
-            echo 'KEK';
         }
-        $data['existinfo'] = FALSE;
+
     }
+
+    public function homeworks()
+    {
+        if ($this->ion_auth->logged_in()) {
+            if ($this->ion_auth->in_group(3) || $this->ion_auth->is_admin()) {
+                $this->load->view('_templates/logged/header');
+                if ($this->uri->uri_string() == 'tc/homeworks') {
+                    $data['accessed_subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
+                    $data['accessed_classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
+                    $data['datepicker'] = array('type' => 'date', 'class' => 'datepicker', 'name' => 'date');
+                    $data['file'] = array('class' => 'file-path validate', 'name' => 'userfile');
+                    $data['containment'] = array('name' => 'content');
+
+                    $this->load->view('dash/teacher/homeworks', $data);
+                    if ($this->input->post('submit')) {
+                        $this->form_validation->set_rules('class', 'Клас', 'required');
+                        $this->form_validation->set_rules('subject', 'Предмет', 'required');
+                        $this->form_validation->set_rules('date', 'Дата', 'required');
+                        $this->form_validation->set_rules('content', 'Вміст', 'required');
+                        if ($this->form_validation->run()) {
+                            if (!empty($_FILES['userfile']['name'])) {
+                                $config['upload_path'] = './content/homeworks/';
+                                $config['allowed_types'] = 'zip|rar';
+                                $config['max_size'] = 10240;
+                                $config['encrypt_name'] = TRUE;
+                                $this->load->library('upload', $config);
+                                if (!$this->upload->do_upload('userfile')) {
+                                    $message = array('error' => $this->upload->display_errors());
+                                    show_error('Щось пішло не так, код помилки 004. Лог:' . print_r($message));
+                                } else {
+
+                                    $this->CRUD_model->addHomework($this->input->post('class'), $this->input->post('subject'), $this->ion_auth->user()->row()->id, $this->input->post('date'), $this->upload->data()['file_name'], $this->input->post('content'));
+                                }
+                            } else {
+                                $submit = $this->CRUD_model->addHomework($this->input->post('class'), $this->input->post('subject'), $this->ion_auth->user()->row()->id, $this->input->post('date'), NULL, $this->input->post('content'));
+                                if ($submit == TRUE) {
+                                    $data['message'] = 'Домашнє завдання було успішно додане';
+                                } else {
+                                    show_error('Нажаль, щось пішло не так. Код помилки - 004', '403', 'Oops');
+                                }
+                            }
+                        }
+                    }
+                }
+                elseif ($this->uri->uri_string() == 'tc/homeworks/show') {
+                    $data['accessed_subjects'] = $this->CRUD_model->getAccessedSubj($this->ion_auth->user()->row()->id);
+                    $data['accessed_classes'] = $this->CRUD_model->getAccessedClasses($this->ion_auth->user()->row()->id);
+                    if ($this->input->post('submit')) {
+                        $data['homeworks'] = $this->CRUD_model->getHomeworks($this->input->post('class'));
+                    }
+                    $this->load->view('dash/teacher/homeworks_show', $data);
+                } else {
+                    redirect('/tc/homeworks');
+                }
+                $this->load->view('_templates/logged/footer');
+            }
+        }
+    }
+
+
+
 }

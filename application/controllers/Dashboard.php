@@ -13,10 +13,6 @@ class Dashboard extends CI_Controller
     public function index()
     {
         if ($this->ion_auth->logged_in()) {
-            $data = array(
-                'news_entries' => $this->CRUD_model->getNews(),
-                'message_entries' => $this->CRUD_model->getMessages()
-            );
             $this->load->view('_templates/logged/header');
             if ($this->ion_auth->in_group(1)) {
                 redirect('admin/index', 'refresh');
